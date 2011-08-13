@@ -1,0 +1,61 @@
+\documentclass{beamer}
+\usetheme{default}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{proof}
+\usepackage{parskip}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{relsize}
+\usepackage[T1]{fontenc}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue
+}
+
+\newcommand{\hl}[1]{\color{red}{#1}}
+\newcommand{\arr}[1]{\ensuremath\xrightarrow{#1}}
+
+\title{An introduction to functional programming\\with Haskell}
+\author{Geoff Hulette}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+%%
+\begin{frame}[fragile]{Outline}
+
+Here is what we will cover:
+
+\begin{itemize}
+  \item Intro to lambda calculus
+  \item Show how this works in Haskell
+  \item Reasoning about side effects
+  \item IO monad
+  \item Lazy evaluation
+  \item Type inference
+  \item Algebraic data types
+  \item Simple example from RWH
+\end{itemize}
+
+\end{frame}
+
+
+%% 
+\begin{frame}{Conclusion}
+
+Questions?
+
+My email: \texttt{ghulett@sandia.gov}
+
+\end{frame}
+
+
+\end{document}

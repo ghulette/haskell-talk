@@ -1,0 +1,4 @@
+Introduction to functional programming in Haskell
+
+In this talk I will review the basic concepts of functional programming and
+show how they are implemented in the Haskell programming language.
