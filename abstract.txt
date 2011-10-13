@@ -1,4 +1,27 @@
 Introduction to functional programming in Haskell
 
-In this talk I will review the basic concepts of functional programming and
-show how they are implemented in the Haskell programming language.
+Functional programming offers a powerful and practical alternative to the
+ubiquitous object-oriented and procedural paradigms. Many programs and
+algorithms may be expressed more clearly, concisely, and with less opportunity
+for errors in functional languages versus the alternatives.
+
+We will cover the basic concepts underlying modern functional programming,
+including the lambda calculus, abstract data types, higher order functions, and
+parametric polymorphism. These theoretical topics will be demonstrated in a
+practical context -- namely, the Haskell programming language.
+
+Haskell is a unique language which manages to combine a fairly "pure" approach
+to functional programming with a design that is practical and robust enough for
+mainstream programming tasks. Many language concepts originally introduced in
+Haskell have been ported to popular languages such as Java, and have heavily
+influenced the design of newer languages such as Scala and F#.
+
+This talk will involve working examples of Haskell code, and you may bring a
+laptop and follow along if you wish. We will be using the Glasgow Haskell
+Compiler (GHC) and its suite of associated tools. At the beginning of the talk I
+will briefly describe how to obtain and install these tools, but if you want a
+head start go to
+
+  http://hackage.haskell.org/platform/
+
+and install the "Haskell Platform" software found there.
