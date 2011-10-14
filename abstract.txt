@@ -5,16 +5,12 @@ ubiquitous object-oriented and procedural paradigms. Many programs and
 algorithms may be expressed more clearly, concisely, and with less opportunity
 for errors in functional languages versus the alternatives.
 
-We will cover the basic concepts underlying modern functional programming,
-including the lambda calculus, abstract data types, higher order functions, and
-parametric polymorphism. These theoretical topics will be demonstrated in a
-practical context -- namely, the Haskell programming language.
-
-Haskell is a unique language which manages to combine a fairly "pure" approach
-to functional programming with a design that is practical and robust enough for
-mainstream programming tasks. Many language concepts originally introduced in
-Haskell have been ported to popular languages such as Java, and have heavily
-influenced the design of newer languages such as Scala and F#.
+We will present the basic concepts underlying modern functional programming,
+including first-class and higher-order functions, abstract data types,
+parametric polymorphism, and type inference, in the context of the Haskell
+programming language. Haskell is unique in its use of non-strict evaluation
+semantics, which, along with a clever approach to state and side-effects, yields
+programs that are highly composable and amenable to formal analysis.
 
 This talk will involve working examples of Haskell code, and you may bring a
 laptop and follow along if you wish. We will be using the Glasgow Haskell
