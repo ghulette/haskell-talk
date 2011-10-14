@@ -10,13 +10,16 @@ including first-class and higher-order functions, abstract data types,
 parametric polymorphism, and type inference, in the context of the Haskell
 programming language. Haskell is unique in its use of non-strict evaluation
 semantics, which, along with a clever approach to state and side-effects, yields
-programs that are highly composable and amenable to formal analysis.
+programs that are highly composable as well as amenable to formal analysis.
 
-This talk will involve working examples of Haskell code, and you may bring a
-laptop and follow along if you wish. We will be using the Glasgow Haskell
-Compiler (GHC) and its suite of associated tools. At the beginning of the talk I
-will briefly describe how to obtain and install these tools, but if you want a
-head start go to
+No previous experience with Haskell or functional languages in general will be
+assumed.
+
+We will present working examples of Haskell code, and you may bring a laptop and
+follow along if you wish. We will be using the Glasgow Haskell Compiler (GHC)
+and its suite of associated tools. At the beginning of the talk I will briefly
+describe how to obtain and install these tools, but if you want a head start go
+to
 
   http://hackage.haskell.org/platform/
 
