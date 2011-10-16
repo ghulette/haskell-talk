@@ -3,7 +3,7 @@ Introduction to functional programming in Haskell
 Functional programming offers a powerful and practical alternative to the
 ubiquitous object-oriented and procedural paradigms. Many programs and
 algorithms may be expressed more clearly, concisely, and with less opportunity
-for errors in functional languages versus the alternatives.
+for errors in functional languages versus the alternatives. In addition, functional programs are more easily analyzed, due to their formal structure.
 
 We will present the basic concepts underlying modern functional programming,
 including first-class and higher-order functions, abstract data types,
