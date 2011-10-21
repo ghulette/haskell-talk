@@ -1,0 +1,65 @@
+%!TEX root = fp-intro.tex
+
+\section{Introduction}
+
+% Motivation for FP, Haskell. Pros/cons. Why not other FPLs?
+
+%
+\begin{frame}{Why functional programming?}
+
+First of all, ``functional'' means different things to different people.
+
+Not OO; the focus is on combining simple functions in interesting ways.
+
+Computation equals evaluation of functions.
+
+Avoids state and mutable data (``side-effects''). 
+
+Because of this they lack referential transparency, i.e. the same language
+expression can result in different values at different times depending on the
+state of the executing program. Conversely, in functional code, the output value
+of a function depends only on the arguments that are input to the function, so
+calling a function f twice with the same value for an argument x will produce
+the same result f(x) both times. Eliminating side effects can make it much
+easier to understand and predict the behavior of a program.
+
+Easier to reason about functional programs.
+
+Financial institutions have been using functional PLs for years. There is a
+reason why.
+
+\end{frame}
+
+%
+\begin{frame}{Why Haskell?}
+
+Clean language, popular, lots of innovative features.
+
+Strong, static typing with very flexible polymorphism.
+
+Excellent compiler.
+
+\end{frame}
+
+%
+\begin{frame}{Why not Haskell?}
+
+Insistence on purity borders on pedantic.
+
+Non-strict semantics can make reasoning about performance difficult.
+
+You could try something like \textbf{Scala} or \textbf{F\#} instead, but Haskell
+is more beautiful and it forces you to program in a functional style.
+
+\end{frame}
+
+%
+\begin{frame}{Why is Haskell a ``weird'' language?}
+
+\begin{itemize}
+  \item Side-effects are ``fenced off,'' and this is enforced in the type system
+  \item Non-strict (``lazy'') evaluation
+  \item Typeclass polymorphism
+\end{itemize}
+
+\end{frame}

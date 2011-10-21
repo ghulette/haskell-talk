@@ -1,0 +1,54 @@
+\documentclass{beamer}
+\mode<presentation>{ \usetheme{boxes} }
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{proof}
+\usepackage{parskip}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{relsize}
+\usepackage[T1]{fontenc}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue
+}
+
+\newcommand{\hl}[1]{\color{red}{#1}}
+\newcommand{\arr}[1]{\ensuremath\xrightarrow{#1}}
+
+\title{An introduction to functional programming\\in Haskell}
+\author{Geoff Hulette}
+\date{\today}
+
+\AtBeginSection[]{
+  \begin{frame}
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\input{intro}
+\input{setup}
+
+
+
+%
+\begin{frame}{Conclusion}
+
+Questions?
+
+My email: \texttt{ghulett@sandia.gov}
+
+\end{frame}
+
+
+\end{document}
