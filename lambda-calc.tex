@@ -1,0 +1,72 @@
+%!TEX root=fp-intro.tex
+
+\section{The $\lambda$-Calculus}
+
+%
+\begin{frame}{The untyped $\lambda$-calculus}
+
+The $\lambda$-calculus is the formalism that underlies a functional approach to
+programming.
+
+We will start our discussion with the \textbf{untyped $\lambda$-calculus}, or
+simply $\mathbf{\lambda}$ -- a Turing-complete model of computation with a
+surprisingly concise description.
+
+\end{frame}
+
+%
+\begin{frame}{The $\lambda$-calculus}
+
+The grammar for $\lambda$:
+
+\begin{tabular}{lll}
+  $t$ \texttt{::=} & $x$              & \emph{(variable)} \\
+                   & $t_1 \; t_2$     & \emph{(application)} \\
+                   & $\lambda x . t$  & \emph{(abstraction)} \\
+\end{tabular}
+
+\end{frame}
+
+%
+\begin{frame}{Evaluation semantics}
+
+What do we mean by semantics?
+
+\end{frame}
+
+%
+\begin{frame}{Call-by-value}
+
+
+
+\end{frame}
+
+%
+\begin{frame}{Call-by-need}
+
+This is more-or-less the semantics used by Haskell.
+
+\end{frame}
+
+%
+\begin{frame}{Scope}
+
+Dynamic vs. static
+
+\end{frame}
+
+%
+\begin{frame}{Recursion}
+
+Y-combinator, example.
+
+\end{frame}
+
+%
+\begin{frame}{Types}
+
+Typing is an alternative way of evaluating an expression. Present the
+simply-typed $\lambda$-calculus, note the problems.
+
+\end{frame}
+
