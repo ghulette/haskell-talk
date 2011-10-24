@@ -15,32 +15,33 @@ GHC benefits from both academic research and industry support.
 %
 \begin{frame}{Installing GHC}
 
-GHC itself is written in Haskell, so you need to bootstrap it. 
+GHC itself is written in Haskell. So, you need to bootstrap it.
 
-The simplest solution is download binaries for your platform. Most popular
-configurations are well supported.
+My recommendation: \textbf{download binaries}.
 
-I recommend the Haskell Platform, which includes GHC along with some other
-helpful tools, including a package manager and useful libraries.
+The \textbf{Haskell Platform} includes GHC along with some other helpful tools,
+including a package manager and useful libraries.
 
 \center{\url{http://hackage.haskell.org/platform/}}
 
 \end{frame}
 
 %
-\begin{frame}{GHC: Interactive mode}
+\begin{frame}{Interactive mode}
 
 GHC includes both a compiler for stand-alone programs (\texttt{ghc}) and an
-interactive interpreter \texttt{ghci}.
+interactive interpreter (\texttt{ghci}).
 
-I don't actually use \texttt{ghci} very much, but it is useful sometimes and
-good for testing out quick ideas.
+Useful for quickly testing out ideas or looking up types.
+
+\emph{Confession}: I don't actually use \texttt{ghci} very often.
 
 \end{frame}
 
 %
-\begin{frame}[fragile]{GHC: \texttt{ghci} example}
+\begin{frame}[fragile]{\texttt{ghci} example}
 
+\begin{block}{}
 \begin{verbatim}
 $ ghci
 GHCi, version 7.0.3: http://www.haskell.org/ghc/
@@ -53,33 +54,34 @@ Prelude> 5 == (2+3)
 True
 Prelude> :q
 Leaving GHCi.
-$
 \end{verbatim}
+\end{block}
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{GHC: Compiling programs}
 
-The regular compiler is called simply \texttt{ghc}. If we have a program like
-this:
+The regular compiler is \texttt{ghc}. We can take a program like this:
 
+\begin{block}{\texttt{helloworld.hs}}
 \begin{verbatim}
--- helloworld.hs
--- This is my great program.
-
+-- This is my program!
 main = do
   putStrLn "Hello world!"
 \end{verbatim}
+\end{block}
 
-then we can compile and run it like this:
+and compile it using \texttt{ghc} like this:
 
+\begin{block}{}
 \begin{verbatim}
 $ ghc --make helloworld.hs 
-[1 of 1] Compiling Main   ( helloworld.hs, helloworld.o )
+[1 of 1] Compiling Main (helloworld.hs, helloworld.o)
 Linking helloworld ...
 $ ./helloworld 
 Hello world!
 \end{verbatim}
+\end{block}
 
 \end{frame}

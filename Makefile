@@ -7,5 +7,5 @@ all:
 	pdflatex $(DOC).tex
 
 clean:
-	rm -f *~ *.bbl *.blg *.log *.aux *.out *.snm *.toc *.nav *.synctex.gz 
+	rm -f *~ *.bbl *.blg *.log *.aux *.out *.snm *.toc *.nav *.vrb *.synctex.gz 
 	rm -f $(DOC).pdf

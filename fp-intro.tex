@@ -1,5 +1,6 @@
-\documentclass{beamer}
-\mode<presentation>{ \usetheme{boxes} }
+\documentclass[compress]{beamer}
+\mode<presentation>
+\usetheme{Madrid}
 \usepackage{lmodern}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -16,11 +17,10 @@
   urlcolor=blue
 }
 
-\newcommand{\hl}[1]{\color{red}{#1}}
-\newcommand{\arr}[1]{\ensuremath\xrightarrow{#1}}
-
-\title{An introduction to functional programming\\in Haskell}
+\title{An Introduction to Functional Programming}
+\subtitle{Using Haskell}
 \author{Geoff Hulette}
+\institute{Sandia National Labs}
 \date{\today}
 
 \AtBeginSection[]{
@@ -39,7 +39,10 @@
 \input{intro}
 \input{setup}
 \input{lambda-calc}
-\input{types}
+\input{simple-types}
+\input{first-order}
+\input{higher-order}
+\input{polymorphic-types}
 \input{conclusion}
 
 \end{document}
