@@ -5,68 +5,280 @@
 %
 \begin{frame}{The untyped $\lambda$-calculus}
 
-The $\lambda$-calculus is the formalism that underlies a functional approach to
-programming.
+The $\lambda$-calculus is the formalism that underlies the functional approach
+to programming.
 
-We will start our discussion with the \textbf{untyped $\lambda$-calculus}, or
-simply $\mathbf{\lambda}$ -- a Turing-complete model of computation with a
-surprisingly concise description.
+The simplest version is the \textbf{untyped $\lambda$-calculus}, or simply
+$\lambda$.
+
+The $lambda$-calculus is a \textbf{core language} for many functional languages.
+Convenient language structures can be defined by translation into $\lambda$.
+
+Haskell actually uses \textbf{System F} as its core language, but $\lambda$ is
+simpler.
 
 \end{frame}
 
 %
 \begin{frame}{The $\lambda$-calculus}
 
-The grammar for $\lambda$:
+The grammar for the language is extremely simple.
 
+\begin{block}{Grammar for the simple untyped $\lambda$-calculus}
 \begin{tabular}{lll}
-  $t$ \texttt{::=} & $x$              & \emph{(variable)} \\
-                   & $t_1 \; t_2$     & \emph{(application)} \\
-                   & $\lambda x . t$  & \emph{(abstraction)} \\
+  $e$ \texttt{::=} & $x$              & \emph{(variable)} \\
+                   & $e_1 \; e_2$     & \emph{(application)} \\
+                   & $\lambda x . e$  & \emph{(abstraction)} \\
 \end{tabular}
+\end{block}
+
+We may also use parentheses to disambiguate expressions.
 
 \end{frame}
 
 %
-\begin{frame}{Computation = evaluation}
+\begin{frame}{Semantics}
 
-What do we mean by semantics?
+The only means to ``compute'' in this language is to apply functions to
+arguments (which are themselves functions). For example, we can define the
+identity function, which just returns its argument:
+
+\begin{block}{Identity function}
+\[
+\mathtt{id} = \lambda x . x
+\]
+\end{block}
 
 \end{frame}
+
+%
+\begin{frame}{Semantics}
+
+Given an expression in the $\lambda$-calculus, we can \textbf{evaluate} it by
+manipulating expressions according to the rules of some \textbf{operational
+semantics}.
+
+The most popular operational semantics are called \textbf{call-by-value}.
+Haskell's semantics are based on a very different semantics --
+\textbf{call-by-need}.
+
+\end{frame}
+
+%
+\begin{frame}{Notation}
+
+Operational semantics have their own idiosyncratic notation.
+
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+
+\begin{block}{Conditions}
+Read $\infer{c}{a \; b}$ as ``if $a$ and $b$, then $c$''.
+\end{block}
+
+\begin{block}{Transitions}
+Read $a \to b$ as ``$a$ rewrites to $b$''.
+\end{block}
+
+\end{column}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{Renaming}
+Read $[x \mapsto a] b$ as ``$x$ is rewritten to $a$ wherever $x$ occurs in the 
+expression $b$''.
+\end{block}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
 
 %
 \begin{frame}{Call-by-value}
 
+\begin{columns}
+\begin{column}{0.4\textwidth}
 
+\begin{block}{Expressions}
+\begin{tabular}{ll}
+$e$ \texttt{::=} & $x$              \\
+                 & $e \; e$         \\
+                 & $\lambda x . e$  \\
+\end{tabular}
+\end{block}
+
+\begin{block}{Values}
+\begin{tabular}{ll}
+$v$ \texttt{::=} & $\lambda x . e$  \\
+\end{tabular}
+\end{block}
+
+\end{column}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{Evaluation}
+\[
+\infer{e_1 e_2 \to e_1' e_2}{e_1 \to e_1'}
+\]
+\[
+\infer{v_1 e_2 \to v_1' e_2}{e_2 \to e_2'}
+\]
+\[
+\infer{(\lambda x . e) v \to \left[x \mapsto v \right] \, e}{}
+\]
+\end{block}
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
 %
 \begin{frame}{Call-by-need}
 
-This is more-or-less the semantics used by Haskell.
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{Expressions}
+\begin{tabular}{ll}
+$e$ \texttt{::=} & $x$              \\
+                 & $e \; e$         \\
+                 & $\lambda x . e$  \\
+\end{tabular}
+\end{block}
+
+\begin{block}{Values}
+\begin{tabular}{ll}
+$v$ \texttt{::=} & $\lambda x . e$  \\
+\end{tabular}
+\end{block}
+
+\end{column}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{Evaluation}
+\[
+\infer{e_1 e_2 \to e_1' e_2}{e_1 \to e_1'}
+\]
+\[
+\infer{(\lambda x . e_1) e_2 \to \left[x \mapsto e_2 \right] \, e_1}{}
+\]
+\end{block}
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
 %
-\begin{frame}{Scope}
+\begin{frame}{Extensions}
 
-Dynamic vs. static
+We can extend the untyped $\lambda$-calculus with natural numbers and simple
+arithmetic -- makes examples easier to grok.
+
+We also introduce a \texttt{let} syntactic sugar:
+
+\begin{block}{\texttt{let} expressions}
+Define
+
+\[
+\mathtt{let} \; x \; \mathtt{=} \; e_1 \; \mathtt{in} \; e_2
+\]
+
+to mean
+
+\[
+(\lambda x . e_2) \; e_1
+\]
+\end{block}
 
 \end{frame}
+
+%
+\begin{frame}[fragile]{Example}
+
+\begin{block}{}
+\begin{verbatim}
+let f = \x -> x + x in f (1 + 2)
+\end{verbatim}
+\end{block}
+
+\begin{block}{Evaluation (call-by-value)}
+\begin{verbatim}
+   (\f -> f (1 + 2)) (\x -> x + x)
+=> (\x -> x + x) (1 + 2)
+=> (\x -> x + x) 3
+=> 3 + 3
+=> 6
+\end{verbatim}
+\end{block}
+
+\begin{block}{Evaluation (call-by-need)}
+\begin{verbatim}
+   (\f -> f (1 + 2)) (\x -> x + 5)
+=> (\x -> x + x) (1 + 2)
+=> (1 + 2) + (1 + 2)
+=> ...
+=> 6
+\end{verbatim}
+\end{block}
+
+
+\end{frame}
+
+% %
+% \begin{frame}{Scope}
+% 
+% Dynamic vs. static
+% 
+% \end{frame}
 
 %
 \begin{frame}{Recursion}
 
-Y-combinator, example.
+It may seem like complicated control flow would be difficult or impossible in
+the untyped $\lambda$-calculus.
+
+Not true -- we can use \textbf{fixpoint combinators} to define general recursive
+functions. Therefore, the untyped $\lambda$-calculus is Turing complete!
+
+Recall that a \textbf{fixed point} of a function $f$ is a value $x$ such that
+$f(x) = x$.
 
 \end{frame}
 
 %
-\begin{frame}{Types}
+\begin{frame}{Y-combinator}
 
-Typing is an alternative way of evaluating an expression. Present the
-simply-typed $\lambda$-calculus, note the problems.
+The \textbf{Y-combinator} is a famous fixpoint combinator.
+
+\begin{block}{Y-combinator}
+$Y = \lambda f.(\lambda x.f (x \; x)) (\lambda x.f (x \; x))$
+\end{block}
+
+In fact, there are infinitely many such combinators.
 
 \end{frame}
 
+%
+\begin{frame}[fragile]{Recursion}
+
+We can use a fixpoint combinator to essentially generate new copies of a
+function body, as needed. This gives us recursion.
+
+\begin{block}{Factorial function}
+\begin{verbatim}
+let fix = \f -> (\x -> f (x x)) (\x -> f (x x)) in 
+let fact = 
+  fix (\g -> (\n -> if n = 0 then 1 else n * (g (n - 1)))) 
+in
+fact 5
+-- fact 5 => 120
+\end{verbatim}
+\end{block}
+
+It isn't very important (nor easy!) to understand precisely \emph{how} this
+works. Just remember that this gives us a formal basis for recursion.
+
+\end{frame}
