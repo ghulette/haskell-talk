@@ -1,3 +1,30 @@
 %!TEX root=fp-intro.tex
 
 \section{Higher-order functions}
+
+%
+\begin{frame}[fragile]{Higher-order functions}
+
+Haskell permits \textbf{higher-order} functions: functions that take other
+functions as arguments.
+
+Remember our identity function?
+
+\begin{verbatim}
+identity x = x
+\end{verbatim}
+
+We can pass it functions too:
+
+\begin{verbatim}
+> :t length
+length :: [a] -> Int
+> :t id length
+id length :: [a] -> Int
+\end{verbatim}
+
+We specialized \texttt{id :: a -> a} to
+
+\texttt{id :: ([a] -> Int) -> ([a] -> Int)}
+
+\end{frame}

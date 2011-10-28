@@ -2,4 +2,40 @@
 
 \section{Polymorphic types}
 
+%
+\begin{frame}[fragile]{Polymorphism}
+
+Haskell supports a few kinds of polymorphism -- \textbf{parametric} polymorphism
+and \textbf{typeclass} polymorphism.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Parametric polymorphism}
+
+Parametric polymorphism is similar to ``generics'' in other languages (e.g.
+Java). It is much simpler in Haskell, and incredibly useful.
+
+What is the type of the following function?
+
+\begin{verbatim}
+identity x = x
+\end{verbatim}
+
+We might want \texttt{Int -> Int} if we are working with integers, or
+\texttt{String -> String}.
+
+Since \texttt{identity} does not care about the structure of its argument, we
+can pass it a value of any type, and know that we will get a value of that same
+type as the result (in this case, we will get the same value).
+
+We say that \texttt{identity} has the type ``alpha to alpha'', or in Haskell:
+
+\begin{verbatim}
+identity :: a -> a
+identity x = x
+\end{verbatim}
+
+\end{frame}
+
 

@@ -5,7 +5,47 @@
 %
 \begin{frame}{Basic types in Haskell}
 
-We just saw the \emph{untyped} $\lambda$-calculus. Now we will look at types.
+We just saw the \emph{untyped} $\lambda$-calculus, which does not have types.
+
+Haskell does have types, based on a calculus called \textbf{System F}.
+
+\end{frame}
+
+%
+\begin{frame}{Features}
+
+Haskell's type system is \textbf{strong}, \textbf{static}, and
+\textbf{inferred}.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Strong, static types}
+
+\textbf{Strong types} are a kind of lightweight formal method. They guarantee
+that certain things can never go wrong in a Haskell program.
+
+\begin{verbatim}
+> 1 + True
+No instance for (Num Bool)
+\end{verbatim}
+
+\textbf{Static typing} means that programs which violate typing rules are
+rejected when the program is compiled.
+
+\end{frame}
+
+%
+\begin{frame}{Type inference}
+
+Haskell can, in many cases, figure out the types for you. This is very
+convenient.
+
+You can always declare types yourself, for any expression or sub-expression.
+This can serve as a useful sanity check.
+
+It can even figure out the most general polymorphic type, often better than you
+yourself can.
 
 \end{frame}
 
@@ -15,10 +55,60 @@ We just saw the \emph{untyped} $\lambda$-calculus. Now we will look at types.
 We write $e::t$ to say that an expression $e$ has type $t$.
 
 \begin{verbatim}
-> :t 'a'
-'a' :: Char
-> :t True
-True :: Bool
+> :set +t
+> 'a'
+'a'
+it :: Char
+> 2^10
+1024
+it :: Integer
+\end{verbatim}
+
+\textbf{Note}: in \texttt{ghci}, ``\texttt{it}'' will always be the value of the
+last expression.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Lists}
+
+Lists are a fundamental datatype in functional programming.
+
+\begin{verbatim}
+> "hello"
+"hello"
+it :: [Char]
+> [1..10]
+[1,2,3,4,5,6,7,8,9,10]
+it :: [Integer]
+> sum it
+55
+it :: Integer
 \end{verbatim}
 
 \end{frame}
+
+%
+\begin{frame}[fragile]{Compound types}
+
+But what is a list?
+
+show data type for nil/cons.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Maybe}
+
+Show maybe type
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Function types}
+
+Example based on a built-in function, like \texttt{sum}. Also one with multiple
+arguments.
+
+\end{frame}
+

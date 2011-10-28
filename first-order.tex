@@ -2,4 +2,80 @@
 
 \section{First-order functions}
 
+%
+\begin{frame}[fragile]{Simple functions}
+
+Functions in Haskell are essentially just like abstractions in the
+$\lambda$-calculus. They are like expressions with missing bits, which are
+represented by the inputs.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Example}
+
+Here is a very simple Haskell function which doubles a number:
+
+\begin{verbatim}
+double x = 2 * x
+\end{verbatim}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Example}
+
+We can (and often do) provide an explicit type for top-level functions:
+
+\begin{verbatim}
+double :: Int -> Int
+double x = 2 * x
+\end{verbatim}
+
+Note: \texttt{Int} is the machine's native word length. \texttt{Integer} is
+unbounded in size (and more expensive).
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Anonymous functions}
+
+Anonymous functions.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Pattern matching}
+
+Function using pattern matching.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Multiple arguments}
+
+Functions with multiple arguments.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Partial application}
+
+Partial application.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Lazy evaluation}
+
+Lazy functions.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Recursion}
+
+Recursion.
+
+\end{frame}
 

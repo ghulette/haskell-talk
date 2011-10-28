@@ -7,45 +7,81 @@
 
 Languages that use simple static type systems have been the mainstay of the programming world for decades. Haskell is statically typed, but its notion of what types are for and what we can do with them is much more flexible and powerful than traditional languages. Types make a major contribution to the brevity, clarity, and efficiency of Haskell programs.
 
-Although powerful, Haskell’s type system is often also unobtrusive. If we omit explicit type information, a Haskell compiler will automatically infer the type of an expression or function. Compared to traditional static languages, to which we must spoon-feed large amounts of type information, the combination of power and inference in Haskell’s type system significantly reduces the clutter and redundancy of our code.
-
-Several of Haskell’s other features combine to further increase the amount of work we can fit into a screenful of text. This brings improvements in development time and agility; we can create reliable code quickly and easily refactor it in response to changing requirements.
-
-Sometimes, Haskell programs may run more slowly than similar programs written in C or C++. For most of the code we write, Haskell’s large advantages in productivity and reliability outweigh any small performance disadvantage.
-
-Multicore processors are now ubiquitous, but they remain notoriously difficult to pro- gram using traditional techniques. Haskell provides unique technologies to make multicore programming more tractable. It supports parallel programming, software transactional memory for reliable concurrency, and it scales to hundreds of thousands of concurrent threads.
+% Although powerful, Haskell’s type system is often also unobtrusive. If we
+% omit explicit type information, a Haskell compiler will automatically infer
+% the type of an expression or function. Compared to traditional static
+% languages, to which we must spoon-feed large amounts of type information, the
+% combination of power and inference in Haskell’s type system significantly
+% reduces the clutter and redundancy of our code.
+% 
+% Several of Haskell’s other features combine to further increase the amount
+% of work we can fit into a screenful of text. This brings improvements in
+% development time and agility; we can create reliable code quickly and easily
+% refactor it in response to changing requirements.
+% 
+% Sometimes, Haskell programs may run more slowly than similar programs written
+% in C or C++. For most of the code we write, Haskell’s large advantages in
+% productivity and reliability outweigh any small performance disadvantage.
+% 
+% Multicore processors are now ubiquitous, but they remain notoriously difficult
+% to pro- gram using traditional techniques. Haskell provides unique
+% technologies to make multicore programming more tractable. It supports
+% parallel programming, software transactional memory for reliable concurrency,
+% and it scales to hundreds of thousands of concurrent threads.
 
 \end{frame}
 
 %
 \begin{frame}{Compared to Modern Dynamic Languages}
 
-Over the past decade, dynamically typed, interpreted languages have become increasingly popular. They offer substantial benefits in developer productivity. Although this often comes at the cost of a huge performance hit, for many programming tasks productivity trumps performance, or performance isn’t a significant factor in any case.
+Over the past decade, dynamically typed, interpreted languages have become
+increasingly popular. They offer substantial benefits in developer productivity.
+Although this often comes at the cost of a huge performance hit, for many
+programming tasks productivity trumps performance, or performance isn’t a
+significant factor in any case.
 
-Brevity is one area in which Haskell and dynamically typed languages perform similarly: in each case, we write much less code to solve a problem than in a traditional language. Programs are often around the same size in dynamically typed languages and Haskell.
-
-When we consider runtime performance, Haskell almost always has a huge advantage. Code compiled by the Glasgow Haskell Compiler (GHC) is typically between 20 to 60 times faster than code run through a dynamic language’s interpreter. GHC also pro- vides an interpreter, so you can run scripts without compiling them.
-
-Another big difference between dynamically typed languages and Haskell lies in their philosophies around types. A major reason for the popularity of dynamically typed languages is that only rarely do we need to explicitly mention types. Through automatic type inference, Haskell offers the same advantage.
-Beyond this surface similarity, the differences run deep. In a dynamically typed language, we can create constructs that are difficult to express in a statically typed language. However, the same is true in reverse: with a type system as powerful as Haskell’s, we can structure a program in a way that would be unmanageable or infeasible in a dynamically typed language.
-
-It’s important to recognize that each of these approaches involves trade-offs.
-Very briefly put, the Haskell perspective emphasizes safety, while the
-dynamically typed outlook favors flexibility. If someone had already discovered
-one way of thinking about types that was always best, we imagine that everyone
-would know about it by now.
-
-Of course, we, the authors, have our own opinions about which trade-offs are
-more beneficial. Two of us have years of experience programming in dynamically
-typed languages. We love working with them; we still use them every day; but
-usually, we prefer Haskell.
+% Brevity is one area in which Haskell and dynamically typed languages perform
+% similarly: in each case, we write much less code to solve a problem than in a
+% traditional language. Programs are often around the same size in dynamically
+% typed languages and Haskell.
+% 
+% When we consider runtime performance, Haskell almost always has a huge
+% advantage. Code compiled by the Glasgow Haskell Compiler (GHC) is typically
+% between 20 to 60 times faster than code run through a dynamic language’s
+% interpreter. GHC also pro- vides an interpreter, so you can run scripts
+% without compiling them.
+% 
+% Another big difference between dynamically typed languages and Haskell lies in
+% their philosophies around types. A major reason for the popularity of
+% dynamically typed languages is that only rarely do we need to explicitly
+% mention types. Through automatic type inference, Haskell offers the same
+% advantage. Beyond this surface similarity, the differences run deep. In a
+% dynamically typed language, we can create constructs that are difficult to
+% express in a statically typed language. However, the same is true in reverse:
+% with a type system as powerful as Haskell’s, we can structure a program in a
+% way that would be unmanageable or infeasible in a dynamically typed language.
+% 
+% It’s important to recognize that each of these approaches involves
+% trade-offs. Very briefly put, the Haskell perspective emphasizes safety, while
+% the dynamically typed outlook favors flexibility. If someone had already
+% discovered one way of thinking about types that was always best, we imagine
+% that everyone would know about it by now.
+% 
+% Of course, we, the authors, have our own opinions about which trade-offs are
+% more beneficial. Two of us have years of experience programming in dynamically
+% typed languages. We love working with them; we still use them every day; but
+% usually, we prefer Haskell.
 
 \end{frame}
 
 %
 \begin{frame}{Compared to Other Functional Languages}
 
+LISP, Scheme, Clojure.
 
+ML, Ocaml.
+
+F\#, Scala.
 
 \end{frame}
 
