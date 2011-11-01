@@ -5,20 +5,34 @@
 %
 \begin{frame}[fragile]{Simple functions}
 
-Functions in Haskell are essentially just like abstractions in the
-$\lambda$-calculus. They are like expressions with missing bits, which are
-represented by the inputs.
+Functions in Haskell are abstractions in the $\lambda$-calculus. 
+
+Think of functions as expressions with missing bits, which are represented by
+the inputs.
 
 \end{frame}
+
+% How does the lambda calculus turn into functions?
+% Notice everything we don't have - mutable data, side effects, state.
 
 %
 \begin{frame}[fragile]{Example}
 
 Here is a very simple Haskell function which doubles a number:
 
+\begin{block}{}
 \begin{verbatim}
 double x = 2 * x
 \end{verbatim}
+\end{block}
+
+Or, equivalently:
+
+\begin{block}{}
+\begin{verbatim}
+double = \x -> 2 * x
+\end{verbatim}
+\end{block}
 
 \end{frame}
 
@@ -32,15 +46,14 @@ double :: Int -> Int
 double x = 2 * x
 \end{verbatim}
 
-Note: \texttt{Int} is the machine's native word length. \texttt{Integer} is
-unbounded in size (and more expensive).
+Haskell will infer the type anyway, and check that it matches your annotation.
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Anonymous functions}
 
-Anonymous functions.
+Functions can be defined and used anywhere, just like any other value.
 
 \end{frame}
 
@@ -61,7 +74,25 @@ Functions with multiple arguments.
 %
 \begin{frame}[fragile]{Partial application}
 
-Partial application.
+Currying.
+
+% It looks like the -> is separating the arguments to dropWhile from each other,
+% but that it also separates the arguments from the return type. In fact -> has
+% only one meaning: it denotes a function that takes an argument of the type on
+% the left and returns a value of the type on the right.
+
+% The implication here is very important. In Haskell, all functions take only
+% one argument. While dropWhile looks like a function that takes two arguments,
+% it is actually a function of one argument, which returns a function that takes
+% one argument. Here’s a perfectly valid Haskell expression:
+
+\begin{verbatim}
+niceSum :: [Integer] -> Integer
+niceSum xs = foldl (+) 0 xs
+
+nicerSum :: [Integer] -> Integer
+nicerSum = foldl (+) 0
+\end{verbatim}
 
 \end{frame}
 

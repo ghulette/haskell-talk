@@ -1,51 +1,72 @@
 %!TEX root=fp-intro.tex
 
-\section{Simple Types}
+\section{Types}
 
 %
 \begin{frame}{Basic types in Haskell}
 
 We just saw the \emph{untyped} $\lambda$-calculus, which does not have types.
 
-Haskell does have types, based on a calculus called \textbf{System F}.
+There are a number of ways to augment the $\lambda$-calculus with types.
+Haskell's types are based on a calculus called \textbf{System F}.
 
 \end{frame}
 
 %
 \begin{frame}{Features}
 
-Haskell's type system is \textbf{strong}, \textbf{static}, and
-\textbf{inferred}.
+Haskell's type system is 
+
+\begin{itemize}
+  \item \textbf{strong},
+  \item \textbf{static},
+  \item and \textbf{inferred}.
+\end{itemize}
 
 \end{frame}
 
 %
-\begin{frame}[fragile]{Strong, static types}
+\begin{frame}[fragile]{Strong typing}
 
-\textbf{Strong types} are a kind of lightweight formal method. They guarantee
+\textbf{Strong typing} is a kind of lightweight formal method. It guarantees
 that certain things can never go wrong in a Haskell program.
 
+\begin{block}{Strong typing}
 \begin{verbatim}
 > 1 + True
-No instance for (Num Bool)
+Error: No instance for (Num Bool)
 \end{verbatim}
-
-\textbf{Static typing} means that programs which violate typing rules are
-rejected when the program is compiled.
+\end{block}
 
 \end{frame}
 
 %
-\begin{frame}{Type inference}
+\begin{frame}[fragile]{Static typing}
 
-Haskell can, in many cases, figure out the types for you. This is very
-convenient.
+\textbf{Static typing} means that programs which violate typing rules are
+rejected at compile time (as opposed to runtime).
+
+This can have benefits for performance, among other things.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Type inference}
+
+Haskell can, in many cases, figure out types for you. This is very convenient.
 
 You can always declare types yourself, for any expression or sub-expression.
-This can serve as a useful sanity check.
+Haskell will check your annotations against its own inference.
 
-It can even figure out the most general polymorphic type, often better than you
-yourself can.
+It can even figure out the most general polymorphic type (often more general
+than you would think).
+
+\begin{block}{}
+\begin{verbatim}
+> :t \x -> x * 2
+\x -> x * 2 :: Num a => a -> a
+\end{verbatim}
+\end{block}
 
 \end{frame}
 
@@ -54,18 +75,44 @@ yourself can.
 
 We write $e::t$ to say that an expression $e$ has type $t$.
 
+\begin{block}{}
 \begin{verbatim}
-> :set +t
+> :set +t  -- Tell ghci to print types
 > 'a'
 'a'
 it :: Char
 > 2^10
 1024
 it :: Integer
+> 5 == (2+3)
+True
+it :: Bool
 \end{verbatim}
+\end{block}
 
-\textbf{Note}: in \texttt{ghci}, ``\texttt{it}'' will always be the value of the
-last expression.
+\textbf{Note}: in \texttt{ghci}, ``\texttt{it}'' is the value of the last
+expression.
+
+\textbf{Note}: \texttt{Int} is the machine's native word length.
+\texttt{Integer} is unbounded in size (and more expensive).
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Tuples}
+
+Haskell supports \textbf{product types} with \textbf{fixed} size:
+
+\begin{block}{}
+\begin{verbatim}
+> (2,3)
+(2,3)
+it :: (Integer, Integer)
+> (False,5,'a')
+(False,5,'a')
+it :: (Bool, Integer, Char)
+\end{verbatim}
+\end{block}
 
 \end{frame}
 
@@ -74,10 +121,8 @@ last expression.
 
 Lists are a fundamental datatype in functional programming.
 
+\begin{block}{}
 \begin{verbatim}
-> "hello"
-"hello"
-it :: [Char]
 > [1..10]
 [1,2,3,4,5,6,7,8,9,10]
 it :: [Integer]
@@ -85,30 +130,106 @@ it :: [Integer]
 55
 it :: Integer
 \end{verbatim}
+\end{block}
 
 \end{frame}
 
 %
-\begin{frame}[fragile]{Compound types}
+\begin{frame}[fragile]{Strings}
+  
+There is a \texttt{String} type -- it is just a synonym for \texttt{[Char]}.
 
-But what is a list?
-
-show data type for nil/cons.
+\begin{block}{}
+\begin{verbatim}
+> "Hello world"
+"Hello world"
+it :: [Char]
+\end{verbatim}
+\end{block}
 
 \end{frame}
 
 %
-\begin{frame}[fragile]{Maybe}
+\begin{frame}[fragile]{Algebraic Data Types}
 
-Show maybe type
+But what is a list, really?
+
+Let's start with a simpler question. What is a \texttt{Bool}?
+
+\begin{block}{}
+\begin{verbatim}
+data Bool = False | True
+\end{verbatim}
+\end{block}
+
+Or, similarly,
+
+\begin{block}{}
+\begin{verbatim}
+data Color = Red | Green | Blue
+\end{verbatim}
+\end{block}
+
+These are called \textbf{algebraic data types}.
+
+The type name is given on the left-hand side. The \textbf{constructor(s)}
+are on the right.
 
 \end{frame}
 
 %
-\begin{frame}[fragile]{Function types}
+\begin{frame}[fragile]{Algebraic Data Types}
 
-Example based on a built-in function, like \texttt{sum}. Also one with multiple
-arguments.
+In Haskell, lists are just another data type.
+
+\begin{block}{}
+\begin{verbatim}
+data MyList a = Nil
+              | Cons a (MyList a)
+
+myListOfNums :: MyList Int
+myListOfNums = Cons 1 (Cons 2 (Cons 3 Nil))
+
+-- Infix
+myListOfNums' = 1 `Cons` 2 `Cons` 3 `Cons` Nil
+\end{verbatim}
+\end{block}
+
+The \texttt{a} stands for ``any type''.
 
 \end{frame}
 
+%
+\begin{frame}[fragile]{Algebraic Data Types}
+
+Regular Haskell lists are defined in exactly the same way.
+
+\begin{block}{}
+\begin{verbatim}
+> [1,2,3] == 1 : 2 : 3 : []
+True
+\end{verbatim}
+\end{block}
+
+The bracket syntax is sugar, since lists are so common.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Tuples}
+
+We can define fixed-size tuples in a similar way:
+
+\begin{block}{}
+\begin{verbatim}
+data Tuple2 a b = Tuple2 a b
+data Tuple3 a b c = Tuple3 a b c
+
+x = Tuple3 True 5 "Hello"
+-- x :: Tuple3 Bool Integer String
+\end{verbatim}
+\end{block}
+
+Haskell has very few built-in data types. Most are defined algebraically.
+
+\end{frame}
