@@ -8,23 +8,249 @@
 Haskell permits \textbf{higher-order} functions: functions that take other
 functions as arguments.
 
-Remember our identity function?
+Higher-order functions allow us to abstract control flow in the same way we
+abstract data types.
 
-\begin{verbatim}
-identity x = x
-\end{verbatim}
-
-We can pass it functions too:
-
-\begin{verbatim}
-> :t length
-length :: [a] -> Int
-> :t id length
-id length :: [a] -> Int
-\end{verbatim}
-
-We specialized \texttt{id :: a -> a} to
-
-\texttt{id :: ([a] -> Int) -> ([a] -> Int)}
+Especially when combined with non-strict evaluation, this results in
+\textbf{composable} code.
 
 \end{frame}
+
+%
+\begin{frame}[fragile]{Function composition}
+
+The canonical example is good old function composition.
+
+Given two functions $f$ and $g$, we define their composition 
+
+\[
+(f \circ g) x = g(f(x))
+\]
+
+or in Haskell
+
+\begin{block}{}
+\begin{verbatim}
+(.) :: (b -> c) -> (a -> b) -> (a -> c)
+f . g = \x -> f (g x)
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Function composition}
+
+\begin{block}{}
+\begin{verbatim}
+> ((+1) . (*2)) 5
+11
+> ((*2) . (+1)) 5
+12
+> let odd' = even . (+1)
+> odd' 5
+True
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Mapping over a list}
+
+Lists are good candidates for higher-order functions.
+
+We can \textbf{map} a single function over each element of a list.
+
+\begin{block}{}
+\begin{verbatim}
+> let xs = [1..10]
+> map (*2) xs
+[2,4,6,8,10,12,14,16,18,20]
+> :t even
+even :: Integral a => a -> Bool
+> map even xs
+[False,True,False,True,False,True,False,True,False,True]
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Implementing \texttt{map}}
+
+What is the type of \texttt{map}?
+
+\begin{block}{}
+\begin{verbatim}
+> :t map
+map :: (a -> b) -> [a] -> [b]
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Implementing \texttt{map}}
+
+Writing \texttt{map} is trivial:
+
+\begin{block}{}
+\begin{verbatim}
+map _ [] = []
+map f (x:xs) = (f x) : map f xs
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Folding a list}
+
+What if we want to combine the elements of a list?
+
+\begin{block}{}
+\begin{verbatim}
+> foldl (+) 0 xs
+55
+> foldl (*) 1 xs
+3628800
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Folding a list}
+
+What if we want to combine the elements of a list?
+
+\begin{block}{}
+\begin{verbatim}
+> foldr (+) 0 [1..10]
+55
+> let prod = foldr (*) 1
+prod :: [Integer] -> Integer
+> prod [1..10]
+3628800
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Folding a list}
+
+Folds do not need to ``reduce'' their list argument:
+
+\begin{block}{}
+\begin{verbatim}
+> let echoes = foldr (\x xs -> (replicate x x) ++ xs) []
+> echoes [1..10] [1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10]
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Folding a list}
+
+There are actually two ways to define a fold: moving left or right. This one
+moves right through the list.
+
+\begin{block}{}
+\begin{verbatim}
+foldr :: (a -> b -> b) -> b -> [a] -> b
+foldr f z []     = z 
+foldr f z (x:xs) = f x (foldr f z xs)
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Filtering a list}
+
+What if we want to filter a list by some predicate?
+
+\begin{block}{}
+\begin{verbatim}
+> filter even [1..10]
+[2,4,6,8,10]
+> filter (\x -> (x > 10) && (x < 20)) [1..100]
+[11,12,13,14,15,16,17,18,19]
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Building complex functions}
+
+We can start to compose simple functions to form more complex ones.
+
+\begin{block}{}
+\begin{verbatim}
+> let maxWordLen = foldl max 0 . map length . words
+maxWordLen :: String -> Int
+> maxWordLen "The quick brown fox jumped"
+6
+\end{verbatim}
+\end{block}
+
+This is starting to look like shell programming!
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Building complex functions}
+
+Let's break that down.
+
+\begin{block}{}
+\begin{verbatim}
+> words "The quick brown fox jumped"
+["The","quick","brown","fox","jumped"]
+> map length it
+[3,5,5,3,6]
+> foldl max 0 it
+6
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Non-strict evaluation}
+
+When we combine higher-order functions with non-strict evaluation, things get
+interesting. 
+
+Recall that \texttt{fibs} is our infinite list of Fibonacci numbers.
+
+\begin{block}{}
+\begin{verbatim}
+-- First Fibonacci number greater than 10000
+> (head . filter (>10000)) fibs
+10946
+
+-- First 10 even Fibonacci numbers
+> (take 10 . filter even) fibs
+[0,2,8,34,144,610,2584,10946,46368,196418]
+\end{verbatim}
+\end{block}
+
+Consider how much control flow logic is implicit in the above examples.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Non-strict evaluation}
+
+With higher-order functions and non-strict evaluation, we can write code that is
+highly \textbf{composable}.
+
+Composability is necessary for formal analysis.
+
+\end{frame}
+
