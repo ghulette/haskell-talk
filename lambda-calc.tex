@@ -5,14 +5,11 @@
 %
 \begin{frame}{The untyped $\lambda$-calculus}
 
-The $\lambda$-calculus is the formalism that underlies the functional approach
-to programming.
+The \textbf{untyped $\lambda$-calculus} is the formalism that underlies
+functional programming.
 
-The simplest version is the \textbf{untyped $\lambda$-calculus}, or simply
-$\lambda$.
-
-The $lambda$-calculus is a \textbf{core language} for many functional languages.
-Convenient language structures can be defined by translation into $\lambda$.
+It is a \textbf{core language} for many functional languages. Convenient
+language structures can be defined by translation into $\lambda$-calculus.
 
 Haskell actually uses a typed variant called \textbf{System F}, but the
 principles are the same.
@@ -22,7 +19,7 @@ principles are the same.
 %
 \begin{frame}{The $\lambda$-calculus}
 
-The grammar for the language is extremely simple.
+The grammar is extremely simple.
 
 \begin{block}{Grammar for the simple untyped $\lambda$-calculus}
 \begin{tabular}{lll}
@@ -32,7 +29,7 @@ The grammar for the language is extremely simple.
 \end{tabular}
 \end{block}
 
-We may also use parentheses to disambiguate expressions.
+Parentheses disambiguate expressions.
 
 \end{frame}
 
@@ -60,8 +57,7 @@ semantics}.
 
 The most popular operational semantics are \textbf{call-by-value}.
 
-Haskell's semantics are based on a very different semantics --
-\textbf{call-by-need}.
+Haskell's semantics are based on a different semantics -- \textbf{call-by-need}.
 
 \end{frame}
 
@@ -133,6 +129,9 @@ $v$ \texttt{::=} & $\lambda x . e$  \\
 \end{column}
 \end{columns}
 
+The key thing to understand is that call-by-value forces arguments to be reduced
+\textbf{before} a function is called.
+
 \end{frame}
 
 %
@@ -170,13 +169,16 @@ $v$ \texttt{::=} & $\lambda x . e$  \\
 \end{column}
 \end{columns}
 
+In call-by-need, arguments are not reduced until they are needed (i.e., when
+they are applied).
+
 \end{frame}
 
 %
 \begin{frame}{Extensions}
 
 We can extend the untyped $\lambda$-calculus with natural numbers and simple
-arithmetic -- makes examples easier to grok.
+arithmetic -- this makes examples easier to grok.
 
 We also introduce a \texttt{let} syntactic sugar:
 
@@ -197,13 +199,42 @@ to mean
 \end{frame}
 
 %
+\begin{frame}[fragile]{Syntax}
+
+In the following examples I use Haskell's notation for $\lambda$ expressions:
+
+\begin{block}{Expressions}
+\begin{tabular}{ll}
+$\lambda$       & Haskell \\
+\hline
+$x$             & \texttt{x} \\
+$e_1 e_2$       & \texttt{e1} \texttt{e2} \\
+$\lambda x . e$ & \verb!\x -> e! \\
+\end{tabular}
+\end{block}
+
+\end{frame}
+
+%
 \begin{frame}[fragile]{Example}
 
-\begin{block}{}
+\begin{block}{Example}
 \begin{verbatim}
 let f = \x -> x + x in f (1 + 2)
 \end{verbatim}
 \end{block}
+
+This expression 
+
+\begin{itemize}
+  \item defines a function $f$ which adds its argument to itself;
+  \item applies $f$ to the expression $1+2$.
+\end{itemize}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Example}
 
 \begin{block}{Evaluation (call-by-value)}
 \begin{verbatim}
@@ -217,7 +248,7 @@ let f = \x -> x + x in f (1 + 2)
 
 \begin{block}{Evaluation (call-by-need)}
 \begin{verbatim}
-   (\f -> f (1 + 2)) (\x -> x + 5)
+   (\f -> f (1 + 2)) (\x -> x + x)
 => (\x -> x + x) (1 + 2)
 => (1 + 2) + (1 + 2)
 => ...
@@ -225,15 +256,7 @@ let f = \x -> x + x in f (1 + 2)
 \end{verbatim}
 \end{block}
 
-
 \end{frame}
-
-% %
-% \begin{frame}{Scope}
-% 
-% Dynamic vs. static
-% 
-% \end{frame}
 
 %
 \begin{frame}{Recursion}
@@ -241,8 +264,10 @@ let f = \x -> x + x in f (1 + 2)
 It may seem like complicated control flow would be difficult or impossible in
 the untyped $\lambda$-calculus.
 
-Not true -- we can use \textbf{fixpoint combinators} to define general recursive
-functions. Therefore, the untyped $\lambda$-calculus is Turing complete!
+Not true! We can use \textbf{fixpoint combinators} to define general recursive
+functions. 
+
+In fact, the untyped $\lambda$-calculus is \textbf{Turing complete}!
 
 Recall that a \textbf{fixed point} of a function $f$ is a value $x$ such that
 $f(x) = x$.
@@ -252,7 +277,7 @@ $f(x) = x$.
 %
 \begin{frame}{Y-combinator}
 
-The \textbf{Y-combinator} is a famous fixpoint combinator.
+The \textbf{Y-combinator} is a famous fixpoint function.
 
 \begin{block}{Y-combinator}
 $Y = \lambda f.(\lambda x.f (x \; x)) (\lambda x.f (x \; x))$
@@ -279,7 +304,6 @@ fact 5
 \end{verbatim}
 \end{block}
 
-It isn't very important (nor easy!) to understand precisely \emph{how} this
-works. Just remember that this gives us a formal basis for recursion.
+Just remember that this gives us a formal basis for recursion.
 
 \end{frame}

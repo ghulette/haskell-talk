@@ -48,6 +48,17 @@ rejected at compile time (as opposed to runtime).
 
 This can have benefits for performance, among other things.
 
+\begin{block}{What are types?}
+\begin{itemize}
+  \item Regular semantics evaluate a program to produce an answer.
+  \item Typing semantics evaluate a program to flag errors.
+\end{itemize}
+
+For static types, we prefer that the evaluation always terminates in a
+reasonable amount of time. This implies that the typing semantics cannot be
+Turing complete. 
+\end{block}
+
 \end{frame}
 
 %
@@ -61,7 +72,7 @@ Haskell will check your annotations against its own inference.
 It can even figure out the most general polymorphic type (often more general
 than you would think).
 
-\begin{block}{}
+\begin{block}{Type inference}
 \begin{verbatim}
 > :t \x -> x * 2
 \x -> x * 2 :: Num a => a -> a
@@ -123,12 +134,12 @@ Lists are a fundamental datatype in functional programming.
 
 \begin{block}{}
 \begin{verbatim}
+> ['a','b','c']
+['a','b','c']
+it :: [Char]
 > [1..10]
 [1,2,3,4,5,6,7,8,9,10]
 it :: [Integer]
-> sum it
-55
-it :: Integer
 \end{verbatim}
 \end{block}
 
@@ -150,11 +161,26 @@ it :: [Char]
 \end{frame}
 
 %
+\begin{frame}[fragile]{Functions}
+  
+Functions are typed, just like anything else.
+
+\begin{block}{}
+\begin{verbatim}
+> :t \x -> x + 1
+\x -> x + 1 :: Int -> Int
+\end{verbatim}
+\end{block}
+
+We read this as ``Int to Int,'' i.e. the function takes an int as input and
+produces an int as output.
+
+\end{frame}
+
+%
 \begin{frame}[fragile]{Algebraic Data Types}
 
-But what is a list, really?
-
-Let's start with a simpler question. What is a \texttt{Bool}?
+What is a \texttt{Bool}?
 
 \begin{block}{}
 \begin{verbatim}
@@ -182,38 +208,39 @@ are on the right.
 
 In Haskell, lists are just another data type.
 
-\begin{block}{}
+\begin{block}{Define \texttt{IntList}}
 \begin{verbatim}
-data MyList a = Nil
-              | Cons a (MyList a)
-
-myListOfNums :: MyList Int
-myListOfNums = Cons 1 (Cons 2 (Cons 3 Nil))
-
--- Infix
-myListOfNums' = 1 `Cons` 2 `Cons` 3 `Cons` Nil
+data IntList = Nil
+             | Cons Int IntList
 \end{verbatim}
 \end{block}
 
-The \texttt{a} stands for ``any type''.
+Notice how \texttt{IntList} is defined recursively.
 
-Notice how \texttt{MyList} is defined recursively.
+\begin{block}{Build some lists}
+\begin{verbatim}
+> lst = Cons 1 (Cons 2 (Cons 3 Nil))
+lst :: IntList
+> lst' = 1 `Cons` 2 `Cons` 3 `Cons` Nil
+lst' :: IntList
+\end{verbatim}
+\end{block}
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Algebraic Data Types}
 
-Regular Haskell lists are defined in exactly the same way.
+Regular Haskell lists are defined in the same way.
 
 \begin{block}{}
 \begin{verbatim}
-> [1,2,3] == 1 : 2 : 3 : []
-True
+> 1 : 2 : 3 : []
+[1,2,3] :: [Int]
 \end{verbatim}
 \end{block}
 
-The bracket syntax is sugar, since lists are so common.
+The bracket syntax is just syntactic sugar.
 
 \end{frame}
 

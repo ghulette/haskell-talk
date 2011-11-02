@@ -12,9 +12,6 @@ the inputs.
 
 \end{frame}
 
-% How does the lambda calculus turn into functions?
-% Notice everything we don't have - mutable data, side effects, state.
-
 %
 \begin{frame}[fragile]{Example}
 
@@ -57,19 +54,11 @@ Haskell will infer the type anyway, and check that it matches your annotation.
 
 Functions can be defined and used just like any other value.
 
-% \begin{block}{ghci}
-% \begin{verbatim}
-% > let powers = map (\x y -> y ^ x) [1..]
-% powers :: [Integer -> Integer]
-% > zipWith ($) powers [10,9..1]
-% [10,81,512,2401,7776,15625,16384,6561,512,1]
-% it :: [Integer]
-% \end{verbatim}
-% \end{block}
-
 \begin{block}{}
 \begin{verbatim}
-> let y = 1 in let foo = \x -> x + y in foo 5
+> let y = 1 in 
+  let foo = \x -> x + y in 
+  foo 5
 6
 \end{verbatim}
 \end{block}
@@ -79,11 +68,11 @@ Functions can be defined and used just like any other value.
 %
 \begin{frame}[fragile]{Multiple arguments}
 
-In the $\lambda$-calculus and Haskell, functions \texttt{always have one
+In the $\lambda$-calculus and Haskell, functions \textbf{always have one
 argument}.
 
 There are two different ways to simulate multiple arguments. The first style is
-similar to that of imperative languages -- package the arguments up in a data
+similar to that of imperative languages -- pack the arguments into a data
 structure (e.g., a tuple):
 
 \begin{block}{}
@@ -123,8 +112,18 @@ These all mean the same thing:
 \begin{verbatim}
 > let add' = \x -> \y -> x + y
 add' :: Integer -> Integer -> Integer
+\end{verbatim}
+\end{block}
+
+\begin{block}{}
+\begin{verbatim}
 > let add'' = \x y -> x + y
 add'' :: Integer -> Integer -> Integer
+\end{verbatim}
+\end{block}
+
+\begin{block}{}
+\begin{verbatim}
 > let add''' x y = x + y
 add''' :: Integer -> Integer -> Integer
 \end{verbatim}
@@ -135,14 +134,14 @@ add''' :: Integer -> Integer -> Integer
 %
 \begin{frame}[fragile]{Multiple arguments}
 
-Curried-style functions are apply the first argument to the outermost function,
-and return a new function.
+Curried-style functions apply the first argument to the outermost function, and
+return a new function.
 
 \begin{block}{}
 \begin{verbatim}
 > let add' = \x -> (\y -> x + y)
 add' :: Integer -> (Integer -> Integer)
-> :t add' 5
+> :t (add' 5)
 add' 5 :: Integer -> Integer
 > :t (add' 5) 2
 add' 5 2 :: Integer
@@ -177,8 +176,8 @@ equals to determine the meaning of an expression.
 %
 \begin{frame}[fragile]{Partial application}
 
-This is called \textbf{partial application}, and it can be quite useful for
-building specialized functions out of more general ones.
+\textbf{Partial application} can be quite useful for building specialized
+functions out of general ones.
 
 \begin{block}{ghci}
 \begin{verbatim}
@@ -215,14 +214,12 @@ Algebraic datatypes can be \textbf{pattern matched} in functions.
 
 \begin{block}{}
 \begin{verbatim}
-data MyList a = Nil
-              | Cons a (MyList a)
+data IntList = Nil
+             | Cons Int IntList
 
-toList :: MyList a -> [a]
-toList xs = 
-  case xs of
-    Nil -> []
-    Cons x xs' -> x : (toList xs')
+toList :: IntList -> [Int]
+toList xs = case xs of Nil -> []
+                       Cons x xs' -> x : (toList xs')
 \end{verbatim}
 \end{block}
 
@@ -284,7 +281,7 @@ height (Node _ l r) = 1 + max (height l) (height r)
 
 We can do some interesting things with non-strict evaluation.
 
-\begin{block}{ghci}
+\begin{block}{Defining $\bot$}
 \begin{verbatim}
 > let bot = bot
 bot :: t
@@ -303,7 +300,7 @@ loop.
 
 In Haskell, we can actually work with values like this.
 
-\begin{block}{ghci}
+\begin{block}{Working with $\bot$}
 \begin{verbatim}
 > let snd = \x y -> y
 > snd bot 5
@@ -318,7 +315,7 @@ In Haskell, we can actually work with values like this.
 
 A less useless example:
 
-\begin{block}{ghci}
+\begin{block}{Infinite Fibonacci}
 \begin{verbatim}
 > let fibs = 0 : 1 : zipWith (+) fibs (tail fibs)
 fibs :: [Integer]

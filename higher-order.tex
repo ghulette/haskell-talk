@@ -24,7 +24,7 @@ The canonical example is good old function composition.
 Given two functions $f$ and $g$, we define their composition 
 
 \[
-(f \circ g) x = g(f(x))
+(f \circ g) x = f(g(x))
 \]
 
 or in Haskell
@@ -41,7 +41,7 @@ f . g = \x -> f (g x)
 %
 \begin{frame}[fragile]{Function composition}
 
-\begin{block}{}
+\begin{block}{Examples}
 \begin{verbatim}
 > ((+1) . (*2)) 5
 11
@@ -111,22 +111,6 @@ What if we want to combine the elements of a list?
 
 \begin{block}{}
 \begin{verbatim}
-> foldl (+) 0 xs
-55
-> foldl (*) 1 xs
-3628800
-\end{verbatim}
-\end{block}
-
-\end{frame}
-
-%
-\begin{frame}[fragile]{Folding a list}
-
-What if we want to combine the elements of a list?
-
-\begin{block}{}
-\begin{verbatim}
 > foldr (+) 0 [1..10]
 55
 > let prod = foldr (*) 1
@@ -146,7 +130,10 @@ Folds do not need to ``reduce'' their list argument:
 \begin{block}{}
 \begin{verbatim}
 > let echoes = foldr (\x xs -> (replicate x x) ++ xs) []
-> echoes [1..10] [1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10]
+> echoes [1..10]
+[1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,
+8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,
+10,10,10]
 \end{verbatim}
 \end{block}
 
@@ -155,8 +142,8 @@ Folds do not need to ``reduce'' their list argument:
 %
 \begin{frame}[fragile]{Folding a list}
 
-There are actually two ways to define a fold: moving left or right. This one
-moves right through the list.
+There are actually two ways to define a fold. This one moves ``right'' through
+the list.
 
 \begin{block}{}
 \begin{verbatim}

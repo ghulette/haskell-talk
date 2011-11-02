@@ -47,7 +47,7 @@ ident :: a -> a
 \end{verbatim}
 \end{block}
 
-We read that type as ``\emph{alpha to alpha}'', and \texttt{a} can be any type.
+We read that type as ``\emph{a to a}'', and \texttt{a} can be any type.
 
 \begin{block}{}
 \begin{verbatim}
@@ -74,7 +74,7 @@ fst :: (a,b) -> a
 
 \textbf{Types are a kind of formal analysis}. 
 
-In fact, we can \textbf{prove} that any (nonpathological) function of type
+In fact, we can \textbf{prove} that any (nonpathological) function of type\\
 \texttt{(a,b) -> a} must do exactly what \texttt{fst} does.
 
 \end{frame}
@@ -260,5 +260,15 @@ instance Eq a => Eq (Tree a) where
 
 Or, we could just ignore the structure of \texttt{a} in the comparison. That
 would be hard to do in this case.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+There are lots of built-in typeclasses, like \texttt{Eq}, \texttt{Show},
+\texttt{Ord}, \texttt{Num}, etc.
+
+We can also define our own.
 
 \end{frame}
