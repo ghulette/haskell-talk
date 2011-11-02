@@ -5,39 +5,260 @@
 %
 \begin{frame}[fragile]{Polymorphism}
 
-Haskell supports a few kinds of polymorphism -- \textbf{parametric} polymorphism
-and \textbf{typeclass} polymorphism.
+Haskell supports two kinds of polymorphism:
+
+\begin{itemize}
+  \item \textbf{parametric} polymorphism and
+  \item \textbf{typeclass} polymorphism.
+\end{itemize}
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Parametric polymorphism}
 
-Parametric polymorphism is similar to ``generics'' in other languages (e.g.
-Java). It is much simpler in Haskell, and incredibly useful.
+Parametric polymorphism is similar to ``generics'' in other languages.
 
 What is the type of the following function?
 
+\begin{block}{}
 \begin{verbatim}
-identity x = x
+ident = \x -> x
 \end{verbatim}
+\end{block}
 
-We might want \texttt{Int -> Int} if we are working with integers, or
-\texttt{String -> String}.
+We would like \texttt{ident :: Int -> Int} for integers.
 
-Since \texttt{identity} does not care about the structure of its argument, we
-can pass it a value of any type, and know that we will get a value of that same
-type as the result (in this case, we will get the same value).
-
-We say that \texttt{identity} has the type ``alpha to alpha'', or in Haskell:
-
-\begin{verbatim}
-identity :: a -> a
-identity x = x
-\end{verbatim}
+But we also want \texttt{ident :: String -> String} for strings, etc.
 
 \end{frame}
 
-% There is a deep mathematical sense in which any nonpathological function of type (a,b) -> a must do exactly what fst does. 
+%
+\begin{frame}[fragile]{Parametric polymorphism}
 
+Since \texttt{ident} does not examine the structure of its argument, we can
+pass it a value of any type, and know that we will get a value of that same type
+as a result.
 
+\begin{block}{ghci}
+\begin{verbatim}
+> let ident = \x -> x
+ident :: a -> a
+\end{verbatim}
+\end{block}
+
+We read that type as ``\emph{alpha to alpha}'', and \texttt{a} can be any type.
+
+\begin{block}{}
+\begin{verbatim}
+> ident 5        -- ident :: Int -> Int
+5
+> ident "Hello"  -- ident :: String -> String
+"Hello"
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Parametric polymorphism}
+
+Another example:
+
+\begin{block}{ghci}
+\begin{verbatim}
+> let fst = \(x,y) -> x
+fst :: (a,b) -> a
+\end{verbatim}
+\end{block}
+
+\textbf{Types are a kind of formal analysis}. 
+
+In fact, we can \textbf{prove} that any (nonpathological) function of type
+\texttt{(a,b) -> a} must do exactly what \texttt{fst} does.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Parametric polymorphism}
+
+We can specialize \texttt{a} to functions:
+
+\begin{block}{ghci}
+\begin{verbatim}
+> let succ = \x -> x + 1
+succ :: Int -> Int
+> :t ident succ
+-- ident :: (Int -> Int) -> (Int -> Int)
+ident succ :: Int -> Int
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Parametric polymorphism}
+
+We can even specialize \texttt{a} to polymorphic functions:
+
+\begin{block}{ghci}
+\begin{verbatim}
+> :t fst
+fst :: (a,b) -> a
+> :t ident fst
+-- Specialized ident :: ((a,b) -> a) -> ((a,b) -> a)
+ident fst :: (a,b) -> a
+\end{verbatim}
+\end{block}
+
+Notice that the type variable name \texttt{a} may be reused, but it is in a
+different scope. This can be \textbf{very} confusing!
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+Haskell features \textbf{typeclass} polymorphism, not found in many other
+languages.
+
+It solves a sticky problem in strongly typed languages.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+What should the type of the equality operator (\texttt{==}) be?
+
+\begin{block}{Option 1}
+\begin{verbatim}
+(==) :: Int -> Int -> Bool
+\end{verbatim}
+\end{block}
+
+This works for \texttt{Int}s but not other types. We could specialize and have
+\texttt{IntEq}, \texttt{StringEq}, etc., but this is obviously gross.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+What should the type of the equality operator (\texttt{==}) be?
+
+\begin{block}{Option 2}
+\begin{verbatim}
+(==) :: a -> a -> Bool
+\end{verbatim}
+\end{block}
+
+This won't work because equality has to consider the structure of the data type
+in question, and simple parametric polymorphism does not allow that.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+We need a way to say ``this datatype supports testing for equality.''
+
+\begin{block}{ghci}
+\begin{verbatim}
+> :t (==)
+(==) :: Eq a => a -> a -> Bool
+\end{verbatim}
+\end{block}
+
+This type signature says that addition will work with any type \texttt{a}, as
+long as \texttt{a} is an \textbf{instance} of \texttt{Eq}.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+So, when we create a data type that supports equality testing, we write
+something like this:
+
+\begin{block}{}
+\begin{verbatim}
+data Color = Red | Green | Blue
+
+instance Eq Color where
+  Red   == Red   = True
+  Green == Green = True
+  Blue  == Blue  = True
+  _     == _     = False
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+If this seems tedious, you will be pleased to know that Haskell can often infer
+the ``correct'' behavior for you:
+
+\begin{block}{}
+\begin{verbatim}
+data Color = Red | Green | Blue deriving Eq
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+What about compound types?
+
+\begin{block}{}
+\begin{verbatim}
+data Tree a = Tip | Node a (Tree a) (Tree a)
+
+instance Eq (Tree a) where
+  Node x l1 r1 == Node y l2 r2 =   x == y 
+                               && l1 == l2 
+                               && r1 == r2
+  Tip == Tip = True
+  _ == _  = False
+\end{verbatim}
+\end{block}
+
+What is the problem here?
+
+\begin{block}{}
+\begin{verbatim}
+No instance for (Eq a)
+    arising from a use of `=='
+  In the first argument of `(&&)', namely `x == y'
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+We have to restrict the instance so that it only applies to \texttt{Tree}s
+containing data that are themselves instances of \texttt{Eq}.
+
+\begin{block}{}
+\begin{verbatim}
+data Tree a = Tip | Node a (Tree a) (Tree a)
+
+instance Eq a => Eq (Tree a) where
+  Node x l1 r1 == Node y l2 r2 =   x == y 
+                               && l1 == l2 
+                               && r1 == r2
+  Tip == Tip = True
+  _ == _  = False
+\end{verbatim}
+\end{block}
+
+Or, we could just ignore the structure of \texttt{a} in the comparison. That
+would be hard to do in this case.
+
+\end{frame}

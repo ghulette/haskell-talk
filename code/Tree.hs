@@ -1,5 +1,10 @@
 data Tree a = Tip | Branch a (Tree a) (Tree a)
 
+instance Eq (Tree a) where
+  Branch x l1 r1 == Branch y l2 r2 = x == y && l1 == l2 && r1 == r2
+  Tip == Tip = True
+  _ == _  = False
+
 empty :: Tree Int
 empty = Tip
 
