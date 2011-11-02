@@ -5,7 +5,7 @@
 %
 \begin{frame}{More stuff!}
 
-We barely scratched the surface. In the future I would like to talk about:
+In the future I would like to talk about:
 
 \end{frame}
 
@@ -37,18 +37,16 @@ f . g = f (g x)
 \end{verbatim}
 \end{block}
 
-is a proof that this statement is true.
+is a proof of the theorem.
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Imperative programming}
 
-In this talk we have stayed away from things like reading files or printing
-output.
+So far, we have avoided things like reading files or printing output.
 
-Since Haskell is evaluated non-strictly, ordering these kinds of side-effecting
-operations is a problem.
+Since Haskell is evaluated non-strictly, ordering operations is a problem.
 
 \begin{block}{}
 \begin{verbatim}
@@ -57,21 +55,21 @@ map print [1..5]
 \end{block}
 
 You might expect this to print out one through five in order, but why? Why not
-backwards, or any order?
+backwards, or any other order?
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Imperative programming}
 
-Haskell has an extremely clever solution -- \textbf{monads}.
+Haskell uses an extremely clever solution -- \textbf{monads}.
 
-Monads are lifted from category theory, and control ordering of side-effects
+Monads are borrowed from category theory, and control ordering of side-effects
 while preserving all the nice properties (purity, composition) that we have
 seen.
 
-Monads turn out to be useful in many contexts besides IO -- they are a useful
-link between imperative and functional programming.
+Monads turn out to be useful in many contexts besides IO -- they are a link
+between the imperative and functional programming worlds.
 
 \end{frame}
 

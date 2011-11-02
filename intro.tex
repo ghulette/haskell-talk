@@ -3,29 +3,30 @@
 %
 \begin{frame}{Motivation}
 
-You should approach this talk as a tutorial on functional programming, which
-happens to take the form of a tutorial on Haskell.
+In this talk I will introduce \textbf{functional programming}, in the context of
+the \textbf{Haskell} programming language.
 
-In particular, I want to focus on the formal structure and semantics of
-functional programs, which makes them amenable to analysis.
+It is intended to provide a short ``highlight reel'' of how functional
+programming works and how it is different from other languages you may be used
+to.
+
+The goal is to support my research group's interest in \textbf{formal methods}.
 
 \end{frame}
 
 %
 \begin{frame}{Why functional programming?}
 
-Focus is on \textbf{combining simple functions} in interesting ways.
+Focus is on \textbf{combining small functions} in interesting ways.
 
-In a pure functional language like Haskell, computation is the process by which
-we reduce an expression to a normal form.
+In a \textbf{pure} functional language like Haskell, computation is the process
+by which we reduce an expression to a normal form.
 
 \begin{itemize}
-  \item Avoids state and mutable data;
+  \item Avoids statefulness and mutable data;
   \item Functions depend only on their apparent inputs;
   \item Strong typing eliminates many common errors.
 \end{itemize}
-
-Haskell has a clever way to incorporate side effects and state.
 
 \end{frame}
 
@@ -56,7 +57,7 @@ print (x + x)
 %
 \begin{frame}[fragile]{Why functional programming?}
 
-It is easier to reason about functional programs because in most cases you can
+It is easier to reason about pure functional programs because you can
 \textbf{substitute equals for equals}.
 
 Similar to how we do proofs in mathematics.
@@ -69,14 +70,14 @@ Similar to how we do proofs in mathematics.
 Haskell isn't the only functional language, but it is a good one.
 
 \begin{itemize}
-  \item Clean and concise syntax;
+  \item Clean, concise syntax;
   \item Strong, static typing;
   \item Flexible polymorphism;
-  \item Mature compiler and tools;
+  \item Mature compiler, tools, and libraries;
   \item Friendly, helpful community.
 \end{itemize}
 
-I use Haskell for 90\% of my programming tasks (the rest is mostly C).
+I use Haskell for 80\% of programming tasks (the rest is mostly C).
 
 \end{frame}
 
@@ -84,19 +85,3 @@ I use Haskell for 90\% of my programming tasks (the rest is mostly C).
   \frametitle{Outline}
   \tableofcontents
 \end{frame}
-
-% \begin{frame}{Monads}
-% 
-% Haskell has a clever way of allowing side effects and state, while maintaining
-% purity and non-strict semantics. It isolates these effects in a structure
-% called a \textbf{monad}.
-% 
-% Monads are ubiquitous in Haskell. They are like little imperative languages
-% with an interpreter, embedded in our pure functional language.
-% 
-% There is one ``magic'' monad, called \texttt{IO}, which will perform side
-% effects like opening and reading files.
-% 
-% We are not going to talk much about monads today.
-% 
-% \end{frame}
