@@ -41,10 +41,12 @@ double = \x -> 2 * x
 
 We can (and often do) provide an explicit type for top-level functions:
 
+\begin{block}{}
 \begin{verbatim}
 double :: Int -> Int
 double x = 2 * x
 \end{verbatim}
+\end{block}
 
 Haskell will infer the type anyway, and check that it matches your annotation.
 
@@ -53,60 +55,282 @@ Haskell will infer the type anyway, and check that it matches your annotation.
 %
 \begin{frame}[fragile]{Anonymous functions}
 
-Functions can be defined and used anywhere, just like any other value.
+Functions can be defined and used just like any other value.
 
-\end{frame}
+% \begin{block}{ghci}
+% \begin{verbatim}
+% > let powers = map (\x y -> y ^ x) [1..]
+% powers :: [Integer -> Integer]
+% > zipWith ($) powers [10,9..1]
+% [10,81,512,2401,7776,15625,16384,6561,512,1]
+% it :: [Integer]
+% \end{verbatim}
+% \end{block}
 
-%
-\begin{frame}[fragile]{Pattern matching}
-
-Function using pattern matching.
+\begin{block}{}
+\begin{verbatim}
+> let y = 1 in let foo = \x -> x + y in foo 5
+6
+\end{verbatim}
+\end{block}
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Multiple arguments}
 
-Functions with multiple arguments.
+In the $\lambda$-calculus and Haskell, functions \texttt{always have one
+argument}.
+
+There are two different ways to simulate multiple arguments. The first style is
+similar to that of imperative languages -- package the arguments up in a data
+structure (e.g., a tuple):
+
+\begin{block}{}
+\begin{verbatim}
+> let add = \(x,y) -> x + y
+add :: (Integer, Integer) -> Integer
+> add (5,2)
+7
+\end{verbatim}
+\end{block}
 
 \end{frame}
+
+%
+\begin{frame}[fragile]{Multiple arguments}
+
+But in Haskell and most functional languages, the preferred style is
+\textbf{curried}:
+
+\begin{block}{}
+\begin{verbatim}
+> let add' = \x -> \y -> x + y
+add' :: Integer -> Integer -> Integer
+> add' 5 2
+7
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Multiple arguments}
+
+These all mean the same thing:
+
+\begin{block}{}
+\begin{verbatim}
+> let add' = \x -> \y -> x + y
+add' :: Integer -> Integer -> Integer
+> let add'' = \x y -> x + y
+add'' :: Integer -> Integer -> Integer
+> let add''' x y = x + y
+add''' :: Integer -> Integer -> Integer
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Multiple arguments}
+
+Curried-style functions are apply the first argument to the outermost function,
+and return a new function.
+
+\begin{block}{}
+\begin{verbatim}
+> let add' = \x -> (\y -> x + y)
+add' :: Integer -> (Integer -> Integer)
+> :t add' 5
+add' 5 :: Integer -> Integer
+> :t (add' 5) 2
+add' 5 2 :: Integer
+\end{verbatim}
+\end{block}
+
+In other words, \texttt{add'} looks like a function that takes two arguments,
+but in fact it is a function that takes one argument, and returns another
+function that takes one argument.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Multiple arguments}
+
+What does \texttt{add2 5} mean, exactly?
+
+\begin{block}{}
+\begin{verbatim}
+   add2 5
+=> (\x -> \y -> x + y) 5  -- Definition of add2
+=> \y -> 5 + y            -- Application
+\end{verbatim}
+\end{block}
+
+This is one of the best features of Haskell: we can always substitute equals for
+equals to determine the meaning of an expression.
+
+\end{frame}
+
 
 %
 \begin{frame}[fragile]{Partial application}
 
-Currying.
+This is called \textbf{partial application}, and it can be quite useful for
+building specialized functions out of more general ones.
 
-% It looks like the -> is separating the arguments to dropWhile from each other,
-% but that it also separates the arguments from the return type. In fact -> has
-% only one meaning: it denotes a function that takes an argument of the type on
-% the left and returns a value of the type on the right.
-
-% The implication here is very important. In Haskell, all functions take only
-% one argument. While dropWhile looks like a function that takes two arguments,
-% it is actually a function of one argument, which returns a function that takes
-% one argument. Here’s a perfectly valid Haskell expression:
-
+\begin{block}{ghci}
 \begin{verbatim}
-niceSum :: [Integer] -> Integer
-niceSum xs = foldl (+) 0 xs
-
-nicerSum :: [Integer] -> Integer
-nicerSum = foldl (+) 0
+> let succ = add' 1
+> succ 3
+4
 \end{verbatim}
+\end{block}
 
-\end{frame}
-
-%
-\begin{frame}[fragile]{Lazy evaluation}
-
-Lazy functions.
+Reordering inputs is easy too, if necessary.
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Recursion}
 
-Recursion.
+Recursion is very easy in Haskell. Definitions exist in their own scope.
+
+\begin{block}{}
+\begin{verbatim}
+> fib n = if n <= 1 then 1 else fib (n - 1) + fib (n - 2)
+fib :: Int -> Int
+> fib 5
+8
+\end{verbatim}
+\end{block}
 
 \end{frame}
 
+%
+\begin{frame}[fragile]{Pattern matching}
+
+Algebraic datatypes can be \textbf{pattern matched} in functions.
+
+\begin{block}{}
+\begin{verbatim}
+data MyList a = Nil
+              | Cons a (MyList a)
+
+toList :: MyList a -> [a]
+toList xs = 
+  case xs of
+    Nil -> []
+    Cons x xs' -> x : (toList xs')
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Pattern matching}
+
+We can omit the \texttt{case} statement and match directly in the arguments:
+
+\begin{block}{}
+\begin{verbatim}
+sum :: [Int] -> Int
+sum [] = 0
+sum (x:xs) = x + (sum xs)
+\end{verbatim}
+\end{block}
+
+\begin{block}{ghci}
+\begin{verbatim}
+> sum [1..10]
+55
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Pattern matching}
+
+\begin{block}{}
+\begin{verbatim}
+data Tree a = Tip | Node a (Tree a) (Tree a)
+empty = Tip
+leaf x = Node x Tip Tip
+
+insert :: Int -> Tree Int -> Tree Int
+insert x Tip = leaf x
+insert x (Node y l r) | x < y     = Node y (insert x l) r
+                      | otherwise = Node y l (insert x r)
+
+height Tip = 0
+height (Node _ l r) = 1 + max (height l) (height r)
+\end{verbatim}
+\end{block}
+
+\begin{block}{ghci}
+\begin{verbatim}
+> let t = insert 5 (insert 25 (insert 15 (insert 20 empty)))
+> height t
+3
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Non-strict evaluation}
+
+We can do some interesting things with non-strict evaluation.
+
+\begin{block}{ghci}
+\begin{verbatim}
+> let bot = bot
+bot :: t
+> bot
+^C
+\end{verbatim}
+\end{block}
+
+Evaluating \texttt{bot} will cause the Haskell runtime to enter an infinite
+loop.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Non-strict evaluation}
+
+In Haskell, we can actually work with values like this.
+
+\begin{block}{ghci}
+\begin{verbatim}
+> let snd = \x y -> y
+> snd bot 5
+5
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Non-strict evaluation}
+
+A less useless example:
+
+\begin{block}{ghci}
+\begin{verbatim}
+> let fibs = 0 : 1 : zipWith (+) fibs (tail fibs)
+fibs :: [Integer]
+> take 10 fibs
+[0,1,1,2,3,5,8,13,21,34]
+> fibs
+[0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,
+4181,6765,10946,17711,28657,46368^C
+\end{verbatim}
+\end{block}
+
+In the last line, \texttt{ghci} will try to evaluate the (infinite) list of
+Fibonacci numbers forever.
+
+\end{frame}

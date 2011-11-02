@@ -9,6 +9,10 @@ toList :: MyList a -> [a]
 toList Nil = []
 toList (Cons x xs) = x : (toList xs)
 
+mysum :: [Int] -> Int
+mysum [] = 0
+mysum (x:xs) = x + (sum xs)
+
 main :: IO ()
 main = do
   print $ toList $ 1 `Cons` 2 `Cons` 3 `Cons` Nil
