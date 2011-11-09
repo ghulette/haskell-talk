@@ -42,38 +42,6 @@ is a proof of the theorem.
 \end{frame}
 
 %
-\begin{frame}[fragile]{Imperative programming}
-
-So far, we have avoided things like reading files or printing output.
-
-Since Haskell is evaluated non-strictly, ordering operations is a problem.
-
-\begin{block}{}
-\begin{verbatim}
-map print [1..5]
-\end{verbatim}
-\end{block}
-
-You might expect this to print out one through five in order, but why? Why not
-backwards, or any other order?
-
-\end{frame}
-
-%
-\begin{frame}[fragile]{Monads}
-
-Haskell uses an extremely clever solution -- \textbf{monads}.
-
-Monads are borrowed from category theory, and control ordering of side-effects
-while preserving all the nice properties (purity, composition) that we have
-seen.
-
-Monads turn out to be useful in many contexts besides IO -- they are a link
-between the imperative and functional programming worlds.
-
-\end{frame}
-
-%
 \begin{frame}{Conclusion}
 
 Questions?

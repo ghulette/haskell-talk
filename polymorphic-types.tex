@@ -212,6 +212,35 @@ data Color = Red | Green | Blue deriving Eq
 %
 \begin{frame}[fragile]{Typeclass polymorphism}
 
+Another common typeclass in the standard libraries is \texttt{Show}.
+
+\begin{block}{}
+\begin{verbatim}
+> show 5
+"5"
+> show "Hello"
+"\"Hello\""
+> show [1,2,3]
+"[1,2,3]"
+\end{verbatim}
+\end{block}
+
+Notice how \texttt{show} returns a string representation of the value in
+\emph{Haskell syntax}. This is by convention, and can be quite useful.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+Built-in types like \texttt{Int}, \texttt{Double}, etc. have built-in support
+for common typeclasses like \texttt{Eq} and \texttt{Show}.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
 What about compound types?
 
 \begin{block}{}
@@ -258,17 +287,77 @@ instance Eq a => Eq (Tree a) where
 \end{verbatim}
 \end{block}
 
-Or, we could just ignore the structure of \texttt{a} in the comparison. That
-would be hard to do in this case.
+Or, we could just ignore the structure of \texttt{a} in the comparison. That is
+usually not the behavior we want, though.
 
 \end{frame}
 
 %
 \begin{frame}[fragile]{Typeclass polymorphism}
 
-There are lots of built-in typeclasses, like \texttt{Eq}, \texttt{Show},
-\texttt{Ord}, \texttt{Num}, etc.
+There are lots of other built-in typeclasses, like \texttt{Ord}, \texttt{Num},
+\texttt{Integral}, etc.
 
 We can also define our own.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+We define a typeclass using the \texttt{class} keyword.
+
+\texttt{Ord} (ordered) is in the standard library, but let's see how it is
+defined.
+
+\begin{block}{}
+\begin{verbatim}
+class (Eq a) => Ord a where
+  (<), (<=), (>=), (>)  :: a -> a -> Bool
+  max, min              :: a -> a -> a
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+One interesting feature is that we can provide default implementations for some
+or even all the methods.
+
+\begin{block}{}
+\begin{verbatim}
+class (Eq a) => Ord a where
+  (<), (<=), (>=), (>)  :: a -> a -> Bool
+  max, min              :: a -> a -> a
+  x <= y = (x == y) || (x < y)
+  x >= y = (x == y) || (x > y)
+  min x y = if x < y then x else y
+  max x y = if x < y then y else x
+\end{verbatim}
+\end{block}
+
+We can override the defaults with more efficient implementations.
+
+\end{frame}
+
+%
+\begin{frame}[fragile]{Typeclass polymorphism}
+
+We can even do neat stuff like this:
+
+\begin{block}{}
+\begin{verbatim}
+class Eq a where
+  (==) :: a -> a -> Bool
+  x == y = not (x /= y)
+  
+  (/=) :: a -> a -> Bool
+  x /= y = not (x == y)
+\end{verbatim}
+\end{block}
+
+Clearly, we have to override one or the other (or both).
 
 \end{frame}
