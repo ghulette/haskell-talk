@@ -5,8 +5,7 @@
 %
 \begin{frame}[fragile]{IO in Haskell}
 
-As you might expect, Haskell's non-strict semantics make certain IO operations
-difficult to reason about.
+Haskell's non-strict semantics means that IO must be handled specially.
 
 For example, how would we construct an expression that prints two integers?
 
@@ -199,6 +198,14 @@ instance Monad Maybe where
 \end{verbatim}
 \end{block}
 
+Recall that we are specializing the type of \texttt{>>=} to
+
+\begin{block}{}
+\begin{verbatim}
+(>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
+\end{verbatim}
+\end{block}
+
 \end{frame}
 
 %
@@ -208,10 +215,10 @@ Bind allows us to write functions like this:
 
 \begin{block}{}
 \begin{verbatim}
-firstOddAndEven :: [Int] -> Maybe (Int,Int)
-firstOddAndEven lst = 
+firstOddAndNextEven :: [Int] -> Maybe (Int,Int)
+firstOddAndNextEven lst = 
   find odd lst >>= \x ->
-  find even lst >>= \y ->
+  find (x+1) lst >>= \y ->
   return (x,y)
 \end{verbatim}
 \end{block}
@@ -220,9 +227,9 @@ This looks a little like an imperative program!
 
 \begin{block}{}
 \begin{verbatim}
-> firstOddAndEven [1..10]
+> firstOddAndNextEven [1..10]
 Just (1,2)
-> firstOddAndEven (map (\x -> x * 2 + 1) [1..10])
+> firstOddAndNextEven (map (\x -> x * 2 + 1) [1..10])
 Nothing
 \end{verbatim}
 \end{block}
@@ -237,10 +244,10 @@ this instead:
 
 \begin{block}{}
 \begin{verbatim}
-firstOddAndEven :: [Int] -> Maybe (Int,Int)
-firstOddAndEven lst = 
+firstOddAndNextEven :: [Int] -> Maybe (Int,Int)
+firstOddAndNextEven lst = 
   do x <- find odd lst
-     y <- find even lst
+     y <- find (x+1) lst
      return (x,y)
 \end{verbatim}
 \end{block}
@@ -253,7 +260,7 @@ syntactic sugar for the previous definition.
 %
 \begin{frame}[fragile]{Monad functions}
 
-There are many library functions which operate on monads.
+There are many library functions which operate on any monad. For example:
 
 \begin{block}{}
 \begin{verbatim}
@@ -315,18 +322,16 @@ So how do we actually \emph{run} an IO action?
 %
 \begin{frame}[fragile]{The \texttt{IO} monad}
 
-One option: we could provide a function with type:
+One option: Haskell could provide a function which would ``run'' the IO action,
+and produce its value. Something like this:
 
 \begin{block}{}
 \begin{verbatim}
-IO a -> a
+unsafePerformIO :: IO a -> a
 \end{verbatim}
 \end{block}
 
-which would ``run'' the IO action, and produce its value.
-
-In fact, Haskell has such a function. It is called \texttt{unsafePerformIO}! Why
-is it ``unsafe''?
+In fact, Haskell has such a function. Why is it ``unsafe''?
 
 \end{frame}
 
@@ -403,3 +408,5 @@ action' :: IO [()]
 \end{block}
 
 \end{frame}
+
+
